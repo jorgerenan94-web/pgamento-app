@@ -1,5 +1,6 @@
 import { GoShieldCheck } from "react-icons/go";
 import PaymentForm from "./components/PaymentForm";
+import CreditCard from "./components/CreditCard";
 
 export default function App(){
   return (
@@ -20,6 +21,12 @@ export default function App(){
           
             <PaymentForm />
           </div>
+        </div>
+
+        <div className="w-[50%] flex items-center justify-center p-12 bg-[#0f131c]">
+            <div className="w-full max-w-lg">
+              <CreditCard />
+            </div>
         </div>
       </div>
     </div>
