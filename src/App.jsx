@@ -7,24 +7,31 @@ import { toast, ToastContainer } from "react-toastify";
 export default function App(){
   const [number,setNumber] = useState("")
   const [name, setName] = useState("")
-  const [validate, setValidate] = useState("")
-  const [cvv, setCvv] = useState(0)
+  const [expiration, setExpiration] = useState("")
+  const [cvv, setCvv] = useState("")
 
   function handlePay(event){
-    event.preventDefault()
+    event.preventDefault();
 
-    toast.success("Pagamento realizado!")
+    if(!name || !number || !expiration || !cvv){
+      toast.error("Preencha todos os campos!");
+      return;
+    }
+    
+    console.log(name, number, expiration, cvv);
+
+    toast.success("Pagamento realizado !");
   }
 
   return (
     <div className="w-full min-h-screen bg-[#f0f4fa]">
       <ToastContainer 
-        position="top-right"
-        autoClose={5000}
-        theme="colored"
-        pauseOnHover={true}
-        hideProgressBar={true}
-        closeOnClick={true}
+        position="top-right" //posição do toast
+        autoClose={5000} //fecha automaticamente após 5 segundos
+        theme="colored" //tema colorido
+        pauseOnHover={true} //pausa o toast quando o mouse passa sobre ele
+        hideProgressBar={true} //esconde a barra de progresso
+        closeOnClick={true} //fecha o toast ao clicar nele
         
       />
       <div className="flex w-full min-h-screen">
@@ -41,13 +48,29 @@ export default function App(){
               <p className="text-[#737b8c]">Insira os dados do seu cartão para completar a compra</p>
             </div>
           
-            <PaymentForm handlePay={handlePay}/>
+            <PaymentForm 
+              handlePay={handlePay} //passa a função handlePay como prop
+              setName={setName} //passa a função setName como prop
+              setNumber={setNumber}
+              setExpiration={setExpiration}
+              setCvv={setCvv}
+              name={name}
+              number={number}
+              expiration={expiration}
+              cvv={cvv}
+
+            />
           </div>
         </div>
 
         <div className="w-[50%] flex items-center justify-center p-12 bg-[#0f131c]">
             <div className="w-full max-w-lg">
-              <CreditCard />
+              <CreditCard 
+                name={name}
+                number={number}
+                expiration={expiration}
+                cvv={cvv}              
+              />
             </div>
         </div>
       </div>

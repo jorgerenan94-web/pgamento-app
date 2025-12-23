@@ -8,7 +8,7 @@ import { GoShieldCheck } from "react-icons/go";
 
 
 
-export default function PaymentForm({ handlePay }){
+export default function PaymentForm({ handlePay, setName,setNumber, setExpiration, setCvv, name, number,expiration, cvv }){
    const icons = [
     {
         icon: <LuLock />,
@@ -24,15 +24,29 @@ export default function PaymentForm({ handlePay }){
     }
    ]
 
+   function formatNumber(value){//função para formatar o número do cartão
+    const format = value
+    .replace(/\D/g,"")//remove todos os caracteres não numericos
+    .slice(0, 16)//limita a 16 caracteres
+    .replace(/(.{4})/g, "$1 ")//separa em grupos de 4 caracteres
+    .trim();
+
+    setNumber(format);
+   }
+
     return (
         <form className="space-y-6">
             <CustomInput
+                value={number}
+                onChange={(event) => formatNumber(event.target.value)}//faz a atualização do estado do número do cartão
                 label = "Número do cartão" 
                 type = "text"
                 placeholder = "0000 0000 0000 0000"
                 icon = {<CiCreditCard1 />}
             />
             <CustomInput
+                value={name}
+                onChange={(event) => setName(event.target.value)}//faz a atualização do estado do nome
                 label = "Nome do titular"
                 type = "text" 
                 placeholder = "COMO APARECE NO CARTÃO"
@@ -40,12 +54,16 @@ export default function PaymentForm({ handlePay }){
 
             <div className="grid grid-cols-2 gap-4">
                 <CustomInput
+                    value={expiration}
+                    onChange={(event) => setExpiration(event.target.value)}//faz a atualização do estado da validade
                     label = "Validade"
                     type = "text"
                     placeholder="MM/AA"
                 />
 
                 <CustomInput
+                    value={cvv}
+                    onChange={(event) => setCvv(event.target.value)} //faz a atualização do estado do cvv
                     label = "CVV"
                     type = "text"
                     placeholder="•••"

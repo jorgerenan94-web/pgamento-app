@@ -1,5 +1,5 @@
 
-export default function CustomInput({ label, type, placeholder, icon, rightIcon }) {
+export default function CustomInput({ label, type, placeholder, icon, rightIcon, onChange, value }) {
     const id = label.toLowerCase().trim().replace(/ /g, "-");
         
     return (
@@ -9,7 +9,9 @@ export default function CustomInput({ label, type, placeholder, icon, rightIcon 
             </label>
 
             <div className="relative w-full">
-                <input 
+                <input
+                    value={value}
+                    onChange={onChange} 
                     type={type}
                     id={id}
                     placeholder={placeholder}
