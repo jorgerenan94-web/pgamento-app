@@ -34,6 +34,35 @@ export default function PaymentForm({ handlePay, setName,setNumber, setExpiratio
     setNumber(format);
    }
 
+   function formatExpiration(event){//função para formatar a validade do cartão
+    const value = event.target.value.replace(/\//g, "")//remove barras
+    
+    //console.log(value);
+
+    if(value.length > 4) return;
+
+    const v = value
+    .replace(/\s+/g, "")//remove espaços
+    .replace(/[^0-9]/gi, "");//remove caracteres não numéricos
+
+     //console.log(v);
+    if(v.length > 2){
+        setExpiration(v.substring(0,2) + "/" + v.substring(2,4))//adiciona a barra após os dois primeiros dígitos
+         //console.log(v.substring(0,2) + "/" + v.substring(2,4));
+         return
+    }
+
+    setExpiration(v);
+   }
+
+   function formatCvv(event){//função para formatar o cvv
+    const value = event.target.value.replace(/\D/g, "");
+
+    if(value.length > 3) return;
+
+    setCvv(value);
+   }
+
     return (
         <form className="space-y-6">
             <CustomInput
@@ -55,7 +84,7 @@ export default function PaymentForm({ handlePay, setName,setNumber, setExpiratio
             <div className="grid grid-cols-2 gap-4">
                 <CustomInput
                     value={expiration}
-                    onChange={(event) => setExpiration(event.target.value)}//faz a atualização do estado da validade
+                    onChange={formatExpiration}//faz a atualização do estado da validade
                     label = "Validade"
                     type = "text"
                     placeholder="MM/AA"
@@ -63,7 +92,7 @@ export default function PaymentForm({ handlePay, setName,setNumber, setExpiratio
 
                 <CustomInput
                     value={cvv}
-                    onChange={(event) => setCvv(event.target.value)} //faz a atualização do estado do cvv
+                    onChange={formatCvv} //faz a atualização do estado do cvv
                     label = "CVV"
                     type = "text"
                     placeholder="•••"
