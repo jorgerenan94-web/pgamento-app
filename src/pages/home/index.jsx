@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import requestApi from "../../helpers/requestApi";
 import { GoShieldCheck } from "react-icons/go";
 import PaymentForm from "../../components/PaymentForm"
@@ -57,15 +57,6 @@ export default function Home(){
 
   return (
     <div className="w-full min-h-screen bg-[#f0f4fa]">
-      <ToastContainer 
-        position="top-right" //posição do toast
-        autoClose={5000} //fecha automaticamente após 5 segundos
-        theme="colored" //tema colorido
-        pauseOnHover={true} //pausa o toast quando o mouse passa sobre ele
-        hideProgressBar={true} //esconde a barra de progresso
-        closeOnClick={true} //fecha o toast ao clicar nele
-        
-      />
       <div className="flex w-full min-h-screen">
         <div className="w-[50%] p-16 flex flex-col justify-center">
           <div className="w-full max-w-md mx-auto">

@@ -29,7 +29,7 @@ export default function PaymentForm({ handlePay, setName,setNumber, setExpiratio
     .replace(/\D/g,"")//remove todos os caracteres não numericos
     .slice(0, 16)//limita a 16 caracteres
     .replace(/(.{4})/g, "$1 ")//separa em grupos de 4 caracteres
-    .trim();
+    .trim();//remove espaços em branco no início e no fim
 
     setNumber(format);
    }

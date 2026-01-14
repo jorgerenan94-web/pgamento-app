@@ -1,10 +1,33 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { CiCreditCard1 } from "react-icons/ci";
 import { LuArrowLeft } from "react-icons/lu";
 import { Link } from "react-router-dom";
+import requestApi from "../../helpers/requestApi";
+import { toast } from "react-toastify";
+import CreditCard from "../../components/CreditCard";
 
 export default function Cards(){
     const [cards, setCards] = useState([])
+    
+
+    useEffect(() => {// Buscar os cartões salvos na API
+        async function getCards(){// Função para buscar os cartões
+            try {
+                const response = await requestApi({// Requisição para buscar os cartões
+                    url: "/creditcards",
+                method: "GET"
+                })
+
+                setCards(response.data)    
+            } catch (error) {
+                toast.error("Erro ao buscar os cartões!")
+            }
+            
+        }
+
+        getCards()
+    }, []) 
 
     return (
         <div className="min-h-screen bg-[#f0f4fa] p-8">
@@ -22,14 +45,31 @@ export default function Cards(){
                                 Meus Cartões
                             </h1>
                             <p className="text-gray-500 text-sm mt-1">
-                                8 cartões cadastrados
+                                {cards.length} cartões cadastrados
                             </p>
                         </div>
                     </div>
+                    <Link to="/">
+                        <button className="w-auto px-4 h-10 bg-[#2a6df4] rounded-lg text-white flex items-center gap-2 font-semibold ">
+                            <CiCreditCard1 size={24} />
+                            Adicionar cartão
+                        </button>
+                    </Link>
                 </div>
 
-                <div className="CARDS">
-
+                <div className="grid grid-cols-3 gap-6">
+                    {cards.map((card) => {
+                            return (
+                                <div key={card._id} className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-[#e2e4e980] hover:border-[#2a6df4]/30 transition-all duration-300 easy-in-out cursor-pointer hover:shadow-lg">
+                                    <CreditCard
+                                        name={card.name}
+                                        number={card.number.replace(/(.{4})/g, "$1 ").trim()}
+                                        expiration={card.expiration}
+                                        cvv={card.cvv}
+                                    />
+                                </div>
+                            )
+                        })}
                 </div>
             </div>
         </div>
