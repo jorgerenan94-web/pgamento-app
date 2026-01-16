@@ -1,14 +1,17 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { CiCreditCard1 } from "react-icons/ci";
-import { LuArrowLeft } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { LuArrowLeft, LuEye } from "react-icons/lu";
+import { Link, useNavigate } from "react-router-dom";
 import requestApi from "../../helpers/requestApi";
 import { toast } from "react-toastify";
 import CreditCard from "../../components/CreditCard";
+import { formatCardNumber } from "../../helpers/formatCard";
+
 
 export default function Cards(){
     const [cards, setCards] = useState([])
+    const navigate = useNavigate()
     
 
     useEffect(() => {// Buscar os cartões salvos na API
@@ -63,10 +66,22 @@ export default function Cards(){
                                 <div key={card._id} className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-[#e2e4e980] hover:border-[#2a6df4]/30 transition-all duration-300 easy-in-out cursor-pointer hover:shadow-lg">
                                     <CreditCard
                                         name={card.name}
-                                        number={card.number.replace(/(.{4})/g, "$1 ").trim()}
+                                        number={formatCardNumber(card.number)}
                                         expiration={card.expiration}
                                         cvv={card.cvv}
                                     />
+
+                                    <div className="mt-4 flex items-center justify-between">
+                                        <p className="text-sm text-gray-500">
+                                            Clique para ver mais detalhes
+                                        </p>
+                                        <button 
+                                            onClick={() => navigate(`/card/${card._id}`)}
+                                            className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-[#2a6df4]/10 hover:cursor-pointer"
+                                        >
+                                            <LuEye size={20} color="#2a6df4"/>
+                                        </button>
+                                    </div>
                                 </div>
                             )
                         })}
